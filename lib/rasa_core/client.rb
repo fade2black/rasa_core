@@ -11,9 +11,13 @@ class RasaCore::Client
     create_response(run_request(url: url), :no_format)
   end
 
+  def version
+    create_response(run_request(url: url, path: 'version'))
+  end
+
   private
-  def url
-    "#{@server}:#{@port}"
+  def url(args={})
+    "#{@server}:#{@port}/#{args[:path]}"
   end
 
   def create_response(response, frmt)
