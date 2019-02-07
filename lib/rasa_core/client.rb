@@ -12,7 +12,7 @@ class RasaCore::Client
   end
 
   def version
-    create_response(run_request(url: url, path: 'version'))
+    create_response(run_request(url: url(path: 'version')))
   end
 
   private
