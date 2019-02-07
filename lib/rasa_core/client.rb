@@ -20,7 +20,7 @@ class RasaCore::Client
     "#{@server}:#{@port}/#{args[:path]}"
   end
 
-  def create_response(response, frmt)
+  def create_response(response, frmt=nil)
     {
       success: response.success?,
       timed_out: response.timed_out?,
