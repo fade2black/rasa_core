@@ -10,7 +10,7 @@ class RasaCore::Client
   end
 
   def check_health
-    build_response(run_request(url: build_url))
+    build_response(run_request(url: build_url), :no_format)
   end
 
   def version
@@ -48,9 +48,10 @@ class RasaCore::Client
   end
 
 
-  def build_response(response)
+  def build_response(response, frmt=nil)
     body = response.body
-    body = format_response_body(body, self.response_format) if response.success?
+    body = format_response_body(body, frmt || self.response_format) if response.success?
+
     {
       success: response.success?,
       timed_out: response.timed_out?,
