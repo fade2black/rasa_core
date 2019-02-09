@@ -2,6 +2,8 @@ class RasaCore::Client
   include RasaCore::TyphoeusClient
   include RasaCore::ResponseFormatter
 
+  attr_accessor :response_format
+
   def initialize(args={})
     @server = args[:server]
     @port = args[:port]
@@ -28,6 +30,13 @@ class RasaCore::Client
     build_response(response)
   end
 
+  def conversation_tracker(args={})
+    path = ['conversations', args[:sender_id] || "default", 'tracker'].join('/')
+    query = {include_events: args[:include_events] || "AFTER_RESTART"}
+    url = build_url(path: path, query: query)
+    build_response(run_request(url: url))
+  end
+
   private
   def build_url(args={})
     "#{@server}:#{@port}/#{args[:path]}#{build_url_query(args[:query])}"
@@ -39,9 +48,9 @@ class RasaCore::Client
   end
 
 
-  def build_response(response, frmt=nil)
+  def build_response(response)
     body = response.body
-    body = format_response_body(body, frmt) if response.success?
+    body = format_response_body(body, self.response_format) if response.success?
     {
       success: response.success?,
       timed_out: response.timed_out?,
