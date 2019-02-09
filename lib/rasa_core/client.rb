@@ -10,7 +10,7 @@ class RasaCore::Client
   end
 
   def check_health
-    build_response(run_request(url: build_url), :no_format)
+    build_response(run_request(url: build_url))
   end
 
   def version
