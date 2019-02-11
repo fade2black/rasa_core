@@ -37,16 +37,13 @@ class RasaCore::Client
     build_response(run_request(url: url))
   end
 
-  def append_event_to_tracker(args={})
-    path = ['conversations', args[:sender_id] || "default", 'tracker/events'].join('/')
-    query = {include_events: args[:include_events] || "AFTER_RESTART"}
-    body = {event: args[:event],
+  def append_slot(args={})
+    body = {
+      event: 'slot',
       timestamp: args[:timestamp],
       name: args[:name],
-      policy: args[:policy],
-      confidence: args[:confidence]}
-    response = run_request(url: build_url(path: path), query: query, body: body, method: 'post')
-    build_response(response)
+      value: args[:value]}
+    append_event_to_tracker(args, body)
   end
 
   private
@@ -71,5 +68,12 @@ class RasaCore::Client
       code: response.code,
       body: body
     }
+  end
+
+  def append_event_to_tracker(args={}, body={})
+    path = ['conversations', args[:sender_id] || "default", 'tracker/events'].join('/')
+    query = {include_events: args[:include_events] || "AFTER_RESTART"}
+    response = run_request(url: build_url(path: path), query: query, body: body, method: 'post')
+    build_response(response)
   end
 end
