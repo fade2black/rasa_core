@@ -37,6 +37,18 @@ class RasaCore::Client
     build_response(run_request(url: url))
   end
 
+  def append_event_to_tracker(args={})
+    path = ['conversations', args[:sender_id] || "default", 'tracker/events'].join('/')
+    query = {include_events: args[:include_events] || "AFTER_RESTART"}
+    body = {event: args[:event],
+      timestamp: args[:timestamp],
+      name: args[:name],
+      policy: args[:policy],
+      confidence: args[:confidence]}
+    response = run_request(url: build_url(path: path), query: query, body: body, method: 'post')
+    build_response(response)
+  end
+
   private
   def build_url(args={})
     "#{@server}:#{@port}/#{args[:path]}#{build_url_query(args[:query])}"

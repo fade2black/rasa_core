@@ -22,7 +22,69 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+require 'rasa_core'
+
+client = RasaCore::Client.new(server:'172.18.0.3', port:5005)
+client.check_health
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>"hello from Rasa Core: 0.11.3"}
+```
+
+The response is always a hash having five key/values
+* `success` - boolean true or false
+* `timed_out` - boolean true or false
+* `code` - HTTP response code
+* `return_message` - a return message in could not get an http response
+* `body` - body response, may be in a simple string form, Ruby `OpenStruct` object, or a JSON format. By default body is an `OpenStruct` object.   
+
+The `check_health` methods return a simple **'Hello'** string if Core is running.
+
+```
+client.version
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>#<OpenStruct minimum_compatible_version="0.11.0", version="0.11.3">}
+```
+```
+client.status
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>#<OpenStruct is_ready=true, model_fingerprint="12c788db30b74a5a8eb88a640aea9ce6">}
+```
+
+We can change the response format
+```
+client.response_format = :json
+client.version
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>"{\"minimum_compatible_version\":\"0.11.0\",\"version\":\"0.11.3\"}\n"}
+client.status
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>"{\"is_ready\":true,\"model_fingerprint\":\"12c788db30b74a5a8eb88a640aea9ce6\"}\n"}
+```
+
+To send a message to Core
+```
+client.send_message(message:'hello')
+#=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>[#<OpenStruct recipient_id="default", text="Greetings!">]}
+```
+
+We can also specify a sender id when sending a message
+```
+client.send_message(message:'hello', sender_id: 'bayram')
+=> {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>[#<OpenStruct recipient_id="bayram", text="Hi there, friend!">]}
+```
+## Client methods
+#### check_health
+Simple sends a GET request `http://<server>:<port>/` and gets a `hello` response in case the core server is running.
+#### status
+Receives information about the currently loaded agent.
+#### version
+Receives metadata about the running Core instance.
+#### send_message(args={})
+Sends a user message <br>
+Arguments: `sender_id`, `message`<br>
+For example `client.send_message(sender_id: 'bkuliyev@gmail.com', message: 'Hello')`
+#### conversation_tracker(args={})
+Retrieve a conversations tracker
+Arguments: `sender_id`, `include_events`
+#### append_event_to_tracker(args={})
+Retrieve a conversations tracker<br>
+Arguments: `sender_id`, `include_events`, `event`, `timestamp`, `name`, `policy`, `confidence`
 
 ## Development
 
