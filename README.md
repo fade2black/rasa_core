@@ -82,9 +82,10 @@ For example `client.send_message(sender_id: 'bkuliyev@gmail.com', message: 'Hell
 #### conversation_tracker(args={})
 Retrieve a conversations tracker
 Arguments: `sender_id`, `include_events`
-#### append_event_to_tracker(args={})
+#### append_slot(args={})
 Retrieve a conversations tracker<br>
-Arguments: `sender_id`, `include_events`, `event`, `timestamp`, `name`, `policy`, `confidence`
+Arguments: `sender_id`, `include_events`, `timestamp`, `name`, `value`
+#### reset_slots(args={})
 
 ## Development
 

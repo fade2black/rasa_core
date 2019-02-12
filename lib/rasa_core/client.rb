@@ -46,6 +46,11 @@ class RasaCore::Client
     append_event_to_tracker(args, body)
   end
 
+  def reset_slots(args={})
+    body = {event: 'reset_slots', timestamp: args[:timestamp]}
+    append_event_to_tracker(args, body)
+  end
+
   private
   def build_url(args={})
     "#{@server}:#{@port}/#{args[:path]}#{build_url_query(args[:query])}"
