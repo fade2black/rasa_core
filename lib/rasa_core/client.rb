@@ -51,6 +51,17 @@ class RasaCore::Client
     append_event_to_tracker(args, body)
   end
 
+  def append_action(args={})
+    body = {
+      event: 'action',
+      timestamp: args[:timestamp],
+      name: args[:name],
+      policy: args[:policy],
+      confidence: args[:confidence]}
+    append_event_to_tracker(args, body)
+  end
+
+
   private
   def build_url(args={})
     "#{@server}:#{@port}/#{args[:path]}#{build_url_query(args[:query])}"
