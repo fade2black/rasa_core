@@ -68,6 +68,30 @@ We can also specify a sender id when sending a message
 client.send_message(message:'hello', sender_id: 'bayram')
 => {:success=>true, :timed_out=>false, :return_message=>"No error", :code=>200, :body=>[#<OpenStruct recipient_id="bayram", text="Hi there, friend!">]}
 ```
+
+Set and access slots as following
+```
+client.append_slot(sender_id: 'bayram_123', name: "name", value: 'bayram')
+client.append_slot(sender_id: 'bayram_123', name: "email", value: 'bkuliyev@gmail.com')
+resp = client.conversation_tracker(sender_id: 'bayram_123')
+resp[:body].slots.email
+# => "bkuliyev@gmail.com"
+resp[:body].slots.name
+# => "bayram"
+```
+
+Assume that core works on `172.18.0.3:5005`. Let's chat with our bot.
+```
+client = RasaCore::Client.new(server:'172.18.0.3', port:5005)
+
+resp = client.send_message(sender_id: 'bayram_123', message:'Hi')
+puts "Bot says: #{resp[:body].first.text}"
+# => Bot says: Hi!
+resp = client.send_message(sender_id: 'bayram_123', message:'Let us chat')
+puts "Bot says: #{resp[:body].first.text}"
+# => Bot says: Sure. I'd be happy to. What's up?
+```
+
 ## Client methods
 #### check_health
 Simple sends a GET request `http://<server>:<port>/` and gets a `hello` response in case the core server is running.
@@ -89,9 +113,7 @@ Arguments: `sender_id`, `include_events`, `timestamp`, `name`, `value`
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Not all functionalities are implemented yet. I will update the gem gradually by adding other methods to interact with Rasa Core. I'd also be glad to get feedback and suggestions.
 
 ## Contributing
 

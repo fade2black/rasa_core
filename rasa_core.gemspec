@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Bayram"]
   spec.email         = ["bkuliyev@gmail.com"]
 
-  spec.summary       = %q{This gem allows to interact with Rasa Core.}
+  spec.summary       = %q{This gem is a simple wrapper that allows to interact with Rasa Core.}
   spec.homepage      = "https://github.com/fade2black/rasa_core"
   spec.license       = "MIT"
 
