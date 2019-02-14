@@ -91,7 +91,7 @@ resp = client.send_message(sender_id: 'bayram_123', message:'Let us chat')
 puts "Bot says: #{resp[:body].first.text}"
 # => Bot says: Sure. I'd be happy to. What's up?
 ```
-We can also interact with Rasa Core from a Ruby-On-Rails application. The following screenshots are from a simple RoR application for sending to and receiving from a core server.  
+We can also interact with Rasa Core from a Ruby-On-Rails application. The following screenshots are from a simple RoR application for sending to and receiving messages from a core server.  
 
 ![screen shot 2019-02-14 at 9 27 25 pm](https://user-images.githubusercontent.com/4416458/52801297-61304f00-309f-11e9-8b6e-5491e1f6e825.png)
 
