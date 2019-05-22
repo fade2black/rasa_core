@@ -116,7 +116,7 @@ Arguments: `sender_id`, `include_events`, `timestamp`, `name`, `value`
 
 ## Development
 
-Not all functionalities are implemented yet. I will update the gem gradually by adding other methods to interact with Rasa Core. I'd also be glad to get feedback and suggestions.
+**Not all functionalities are implemented yet. I will update the gem gradually by adding other methods to interact with Rasa Core. I'd also be glad to get feedback and suggestions.**
 
 ## Contributing
 
